@@ -43,6 +43,8 @@ func (wallet *Wallet) AddAccount(acc *entity.Account) (*entity.Account, error) {
 		acc.AccountID = len(wallet.Accounts) + 1
 	}
 
+	log.Println(acc)
+
 	if _, err := wallet.findAccountID(acc.AccountID); err == nil {
 		return nil, errors.New("Account already exists, not possible to overwrite")
 	}

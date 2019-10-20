@@ -24,6 +24,8 @@ func SetupRouter(service *usecases.Service, log *timber.Client) *gin.Engine {
 
 		v1.POST("/transactions", InsertTransaction(service, log))
 		v1.POST("/payments", InsertPayments(service, log))
+		// v1.GET("/transactions")
+		// v1.GET("/transactions/account")
 	}
 
 	return r
@@ -46,6 +48,7 @@ func CreateAccount(service *usecases.Service, log *timber.Client) func(c *gin.Co
 		Acc.CreditLimit = Income.CreditLimit.Value
 		Acc.WithdrawlLimit = Income.WithdrawlLimit.Value
 
+		fmt.Println(Acc)
 		created, err := service.AddAccount(&Acc)
 		if err != nil {
 			log.Err(err.Error())
