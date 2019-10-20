@@ -2,7 +2,7 @@
 FROM golang:latest
 
 # Install application
-RUN go get https://github.com/vanigabriel/Projeto-Pismo
+RUN go get github.com/vanigabriel/Projeto-Pismo
 CMD ["pwd"]
 CMD ["ls"]
 
