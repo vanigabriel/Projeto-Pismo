@@ -12,10 +12,6 @@ CMD ["pwd"]
 WORKDIR /app
 CMD ["pwd"]
 
-
-# Verify oracle client
-CMD ["sqlplus64", "-v"]
-
 # Copy .env file
 COPY .env .
 RUN cp /go/bin/Projeto-Pismo .
