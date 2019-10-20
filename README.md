@@ -15,3 +15,9 @@ https://documenter.getpostman.com/view/7995657/SVtbPkFJ
 - Govalidator para conferir campos obrigatórios;
 - Log enviado para o Timber.io;
 - TDD;
+
+# Rodando
+    Para executar, baixe o projeto e execute o comando para gerar o docker
+  docker build -t vanigabriel/projeto-pismo .
+    Após, é só executar o docker direcionando para a porta 9292
+    docker run --name vanigabriel/projeto-pismo -itd -p 9292:9292
