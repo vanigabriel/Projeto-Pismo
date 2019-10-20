@@ -12,6 +12,8 @@ type Accounts interface {
 // Transactions definition interface
 type Transactions interface {
 	InsertTransaction(transaction *entity.Transaction) error
+	ReturnTransactionsID(accountID int) ([]entity.Transaction, error)
+	ReturnTransactions() ([]entity.Transaction, error)
 }
 
 // Repository interface of accounts and transactions

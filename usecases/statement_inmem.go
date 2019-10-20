@@ -68,6 +68,23 @@ func (statement *Statements) InsertTransaction(transaction *entity.Transaction) 
 	return nil
 }
 
+// ReturnTransactionsID get all transactions of accountID
+func (statement *Statements) ReturnTransactionsID(accountID int) ([]entity.Transaction, error) {
+	var transactions []entity.Transaction
+
+	for i := 0; i < len(statement.Transactions); i++ {
+		if accountID == statement.Transactions[i].AccountID {
+			transactions = append(transactions, statement.Transactions[i])
+		}
+	}
+	return transactions, nil
+}
+
+// ReturnTransactions get all transactions
+func (statement *Statements) ReturnTransactions() ([]entity.Transaction, error) {
+	return statement.Transactions, nil
+}
+
 func (statement *Statements) correctLimit(transaction *entity.Transaction) error {
 	account, err := statement.findAccountID(transaction.AccountID)
 	if err != nil {

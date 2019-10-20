@@ -53,3 +53,13 @@ func (s *Service) InsertTransaction(transaction *entity.Transaction) error {
 
 	return s.repo.InsertTransaction(transaction)
 }
+
+// ReturnTransactionsID get all transactions of accountID
+func (s *Service) ReturnTransactionsID(accountID int) ([]entity.Transaction, error) {
+	return s.repo.ReturnTransactionsID(accountID)
+}
+
+// ReturnTransactions get all transactions
+func (s *Service) ReturnTransactions() ([]entity.Transaction, error) {
+	return s.repo.ReturnTransactions()
+}
