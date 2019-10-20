@@ -8,5 +8,5 @@ type Transaction struct {
 	Amount        float64 `json:"amount" valid:"required"`
 	Balance       float64 `json:"balance"`
 	EventDate     string  `json:"event_date"`
-	DueDate       string
+	DueDate       string  `json:"-"`
 }
