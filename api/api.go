@@ -22,7 +22,7 @@ func SetupRouter(service *usecases.Service, log *timber.Client) *gin.Engine {
 		v1.POST("/accounts", CreateAccount(service, log))
 		v1.PATCH("/accounts/:id", AlterAccount(service, log))
 		v1.GET("/accounts/limits", RetriveAccounts(service, log))
-		v1.GET("/accounts/:id/transactions", RetriveTransactionsID(service, log))
+		v1.GET("/accounts/transactions/:id", RetriveTransactionsID(service, log))
 
 		v1.POST("/transactions", InsertTransaction(service, log))
 		v1.POST("/payments", InsertPayments(service, log))
