@@ -43,6 +43,9 @@ func (s *Service) GetAccounts() ([]entity.Account, error) {
 // InsertTransaction insert a transaction in Statements
 // Return error if anything not right occours
 func (s *Service) InsertTransaction(transaction *entity.Transaction) error {
+	if transaction.OperationID == 0 {
+		transaction.OperationID = 4
+	}
 	_, err := govalidator.ValidateStruct(transaction)
 	if err != nil {
 		return err
