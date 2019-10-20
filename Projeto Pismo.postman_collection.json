@@ -1,0 +1,808 @@
+{
+	"info": {
+		"_postman_id": "dcdd1961-948a-4adc-85c0-84fb178fac24",
+		"name": "Projeto Pismo",
+		"description": "API para implementação do desafio proposto pela Pismo.\n\nCada cliente possue uma conta e cada transação realizada está vinculada à uma conta.\nCada transação possui um tipo, um valor, um saldo e uma data de lançamento.\n\nO sistema deve ser capaz de criar, atualizar e listar contas.\nTambém deve ser capaz de criar uma transação, trabalhando com o conceito do saldo em aberto das mesmas, sendo capaz de recalculado o saldo em aberto após um pagamento.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"available_credit_limit\": {\n\t\t\"amount\": 2000.0\n\t},\n\t\"available_withdrawal_limit\": {\n\t\t\"amount\": 2000.0\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9292/v1/accounts",
+					"host": [
+						"localhost"
+					],
+					"port": "9292",
+					"path": [
+						"v1",
+						"accounts"
+					]
+				},
+				"description": "Recebe as configurações de uma conta e devolve ela criada"
+			},
+			"response": [
+				{
+					"name": "Create Account",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"avaliable_credit_limit\": {\n\t\t\"amount\": 2000.0\n\t},\n\t\"avaliable_withdrawal_limit\": {\n\t\t\"amount\": 2000.0\n\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9292/v1/accounts",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 01:59:52 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "94"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"AccountID\": 1,\n    \"available_credit_limit\": 0,\n    \"available_withdrawal_limit\": 0,\n    \"CreditAvaliable\": 0\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Accounts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9292/v1/accounts/limits",
+					"host": [
+						"localhost"
+					],
+					"port": "9292",
+					"path": [
+						"v1",
+						"accounts",
+						"limits"
+					]
+				},
+				"description": "Return all Accounts"
+			},
+			"response": [
+				{
+					"name": "No Accounts",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9292/v1/accounts/limits",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"accounts",
+								"limits"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:19:00 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "33"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"No account avaliable\"\n}"
+				},
+				{
+					"name": "Get Accounts",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9292/v1/accounts/limits",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"accounts",
+								"limits"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:59:40 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "210"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"account_id\": 1,\n        \"available_credit_limit\": 2000,\n        \"available_withdrawal_limit\": 3000,\n        \"available_balance\": 500\n    },\n    {\n        \"account_id\": 2,\n        \"available_credit_limit\": 2000,\n        \"available_withdrawal_limit\": 3000,\n        \"available_balance\": 0\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Update Account",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"available_credit_limit\": {\n\t\t\"amount\": -200\n\t},\n\t\"available_withdrawal_limit\": {\n\t\t\"amount\": -203.97\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9292/v1/accounts/8",
+					"host": [
+						"localhost"
+					],
+					"port": "9292",
+					"path": [
+						"v1",
+						"accounts",
+						"8"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Receive values to update a existing account"
+			},
+			"response": [
+				{
+					"name": "Account not found",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"available_credit_limit\": {\n\t\t\"amount\": -200\n\t},\n\t\"available_withdrawal_limit\": {\n\t\t\"amount\": -203.97\n\t}\n}"
+						},
+						"url": {
+							"raw": "localhost:9292/v1/accounts/8",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"accounts",
+								"8"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:20:57 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "30"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Account not found\"\n}"
+				},
+				{
+					"name": "Update Account",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"available_credit_limit\": {\n\t\t\"amount\": -200\n\t},\n\t\"available_withdrawal_limit\": {\n\t\t\"amount\": -203.97\n\t}\n}"
+						},
+						"url": {
+							"raw": "localhost:9292/v1/accounts/2",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"accounts",
+								"2"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:20:42 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "103"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"AccountID\": 2,\n    \"available_credit_limit\": 1800,\n    \"available_withdrawal_limit\": 1796.03,\n    \"CreditAvaliable\": 0\n}"
+				}
+			]
+		},
+		{
+			"name": "Insert Transaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"account_id\": 1,\n\t\"operation_type_id\": 1,\n\t\"amount\": -200.0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9292/v1/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "9292",
+					"path": [
+						"v1",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Insert a new transaction"
+			},
+			"response": [
+				{
+					"name": "Insert Transaction",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"account_id\": 1,\n\t\"operation_type_id\": 1,\n\t\"amount\": -200.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9292/v1/transactions",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:47:32 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "22"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Created\"\n}"
+				},
+				{
+					"name": "Insuficient creditLimit",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"account_id\": 1,\n\t\"operation_type_id\": 1,\n\t\"amount\": -10000.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9292/v1/transactions",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:53:22 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "36"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Insuficient creditLimit\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Account Transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9292/v1/transactions/accounts/1",
+					"host": [
+						"localhost"
+					],
+					"port": "9292",
+					"path": [
+						"v1",
+						"transactions",
+						"accounts",
+						"1"
+					]
+				},
+				"description": "Retrive all transactions of a existing account"
+			},
+			"response": [
+				{
+					"name": "Get Account Transactions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9292/v1/transactions/accounts/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"transactions",
+								"accounts",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:49:27 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "454"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"transaction_id\": 1,\n        \"account_id\": 1,\n        \"operation_type_id\": 1,\n        \"amount\": -200,\n        \"balance\": -200,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 2,\n        \"account_id\": 1,\n        \"operation_type_id\": 1,\n        \"amount\": -300,\n        \"balance\": -300,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 3,\n        \"account_id\": 1,\n        \"operation_type_id\": 3,\n        \"amount\": -300,\n        \"balance\": -300,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 4,\n        \"account_id\": 1,\n        \"operation_type_id\": 2,\n        \"amount\": -200,\n        \"balance\": -200,\n        \"event_date\": \"2019-10-19\"\n    }\n]"
+				},
+				{
+					"name": "Get Account Transactions after payment",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9292/v1/transactions/accounts/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"transactions",
+								"accounts",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:50:07 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "555"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"transaction_id\": 1,\n        \"account_id\": 1,\n        \"operation_type_id\": 1,\n        \"amount\": -200,\n        \"balance\": 0,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 2,\n        \"account_id\": 1,\n        \"operation_type_id\": 1,\n        \"amount\": -300,\n        \"balance\": 0,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 3,\n        \"account_id\": 1,\n        \"operation_type_id\": 3,\n        \"amount\": -300,\n        \"balance\": 0,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 4,\n        \"account_id\": 1,\n        \"operation_type_id\": 2,\n        \"amount\": -200,\n        \"balance\": 0,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 5,\n        \"account_id\": 1,\n        \"operation_type_id\": 4,\n        \"amount\": 5000,\n        \"balance\": 4000,\n        \"event_date\": \"2019-10-19\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get Transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9292/v1/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "9292",
+					"path": [
+						"v1",
+						"transactions"
+					]
+				},
+				"description": "Get all transactions"
+			},
+			"response": [
+				{
+					"name": "Get Transactions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9292/v1/transactions",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"transactions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:50:49 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "555"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"transaction_id\": 1,\n        \"account_id\": 1,\n        \"operation_type_id\": 1,\n        \"amount\": -200,\n        \"balance\": 0,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 2,\n        \"account_id\": 1,\n        \"operation_type_id\": 1,\n        \"amount\": -300,\n        \"balance\": 0,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 3,\n        \"account_id\": 1,\n        \"operation_type_id\": 3,\n        \"amount\": -300,\n        \"balance\": 0,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 4,\n        \"account_id\": 1,\n        \"operation_type_id\": 2,\n        \"amount\": -200,\n        \"balance\": 0,\n        \"event_date\": \"2019-10-19\"\n    },\n    {\n        \"transaction_id\": 5,\n        \"account_id\": 1,\n        \"operation_type_id\": 4,\n        \"amount\": 5000,\n        \"balance\": 4000,\n        \"event_date\": \"2019-10-19\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Insert Payments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 50\r\n    },\r\n   {\r\n        \"account_id\": 1,\r\n        \"amount\": 10\r\n    },\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 20\r\n    },\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 2\r\n    },\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 100\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9292/v1/payments",
+					"host": [
+						"localhost"
+					],
+					"port": "9292",
+					"path": [
+						"v1",
+						"payments"
+					]
+				},
+				"description": "Bulk insert payments (transactions of operation_id = 4)"
+			},
+			"response": [
+				{
+					"name": "Insert Payments",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 50\r\n    },\r\n   {\r\n        \"account_id\": 1,\r\n        \"amount\": 10\r\n    },\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 20\r\n    },\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 2\r\n    },\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 100\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9292/v1/payments",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"payments"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:52:56 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "22"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Created\"\n}"
+				},
+				{
+					"name": "Insert Payments",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 50\r\n    },\r\n   {\r\n        \"account_id\": 1,\r\n        \"amount\": 10\r\n    },\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 20\r\n    },\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 2\r\n    },\r\n    {\r\n        \"account_id\": 1,\r\n        \"amount\": 100\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9292/v1/payments",
+							"host": [
+								"localhost"
+							],
+							"port": "9292",
+							"path": [
+								"v1",
+								"payments"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 20 Oct 2019 02:59:57 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "22"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Created\"\n}"
+				}
+			]
+		}
+	],
+	"protocolProfileBehavior": {}
+}
