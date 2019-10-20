@@ -21,6 +21,9 @@ func SetupRouter(service *usecases.Service, log *timber.Client) *gin.Engine {
 		v1.POST("/accounts", CreateAccount(service, log))
 		v1.PATCH("/accounts/:id", AlterAccount(service, log))
 		v1.GET("/accounts/limits", RetriveAccounts(service, log))
+
+		v1.POST("/transactions", InsertTransaction(service, log))
+		v1.POST("/payments", InsertPayments(service, log))
 	}
 
 	return r
@@ -107,7 +110,7 @@ func RetriveAccounts(service *usecases.Service, log *timber.Client) func(c *gin.
 }
 
 // InsertTransaction route to insert a new transaction
-func InsertTransactions(service *usecases.Service, log *timber.Client) func(c *gin.Context) {
+func InsertTransaction(service *usecases.Service, log *timber.Client) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		var Transaction entity.Transaction
 
@@ -123,6 +126,30 @@ func InsertTransactions(service *usecases.Service, log *timber.Client) func(c *g
 			log.Err(err.Error())
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
+		}
+
+		c.JSON(http.StatusCreated, gin.H{})
+	}
+}
+
+// InsertPayments route to insert a collection of transactions
+func InsertPayments(service *usecases.Service, log *timber.Client) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		var Payments []entity.Transaction
+
+		err := c.BindJSON(&Payments)
+		if err != nil {
+			log.Err(err.Error())
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		for _, p := range Payments {
+			err = service.InsertTransaction(&p)
+			if err != nil {
+				log.Err(err.Error())
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
 		}
 
 		c.JSON(http.StatusCreated, gin.H{})
