@@ -22,10 +22,11 @@ func SetupRouter(service *usecases.Service, log *timber.Client) *gin.Engine {
 		v1.POST("/accounts", CreateAccount(service, log))
 		v1.PATCH("/accounts/:id", AlterAccount(service, log))
 		v1.GET("/accounts/limits", RetriveAccounts(service, log))
+		v1.GET("/accounts/:id/transactions", RetriveTransactionsID(service, log))
 
 		v1.POST("/transactions", InsertTransaction(service, log))
 		v1.POST("/payments", InsertPayments(service, log))
-		// v1.GET("/transactions")
+		v1.GET("/transactions", RetriveTransactions(service, log))
 		// v1.GET("/transactions/account")
 	}
 
@@ -157,5 +158,43 @@ func InsertPayments(service *usecases.Service, log *timber.Client) func(c *gin.C
 		}
 
 		c.JSON(http.StatusCreated, gin.H{"message": "Created"})
+	}
+}
+
+// RetriveTransactions route to get all transactions
+func RetriveTransactions(service *usecases.Service, log *timber.Client) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		Transactions, err := service.ReturnTransactions()
+		if err != nil {
+			log.Err(err.Error())
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, Transactions)
+	}
+}
+
+// RetriveTransactionsID route to get all transactions of an account
+func RetriveTransactionsID(service *usecases.Service, log *timber.Client) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		var id string
+		id = c.Param("id")
+		if len(id) == 0 {
+			log.Err("Account ID not informed")
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Account ID not informed"})
+			return
+		}
+
+		idAccont, _ := strconv.Atoi(id)
+
+		Transactions, err := service.ReturnTransactionsID(idAccont)
+		if err != nil {
+			log.Err(err.Error())
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, Transactions)
 	}
 }
