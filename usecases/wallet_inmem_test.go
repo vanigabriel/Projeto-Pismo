@@ -33,6 +33,7 @@ func TestAddAccount(t *testing.T) {
 	inserted, err := wallet.AddAccount(&account2)
 	assert.Nil(t, err)
 	assert.NotEqual(t, inserted.AccountID, 0)
+	assert.Equal(t, inserted.CreditLimit, 123.12)
 
 }
 

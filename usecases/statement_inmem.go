@@ -29,12 +29,12 @@ func InitStatements() *Statements {
 func (statement *Statements) InsertTransaction(transaction *entity.Transaction) error {
 	// If not payment, amount must be negative
 	if transaction.OperationID != 4 && transaction.Amount > 0 {
-		return errors.New("Operation type cannot accept negative amount")
+		return errors.New("Operation type cannot accept positive amount")
 	}
 
 	// If payment, amount must be positive
-	if transaction.OperationID != 4 && transaction.Amount > 0 {
-		return errors.New("Operation type cannot accept positive amount")
+	if transaction.OperationID == 4 && transaction.Amount < 0 {
+		return errors.New("Operation type cannot accept negative amount")
 	}
 
 	statement.Lock()
