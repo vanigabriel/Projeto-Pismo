@@ -1,4 +1,4 @@
-# Projeto Piso
+# Projeto Pismo
     API para implementação do desafio proposto pela Pismo.
 
     Cada cliente possue uma conta e cada transação realizada está vinculada à uma conta. Cada transação possui um tipo, um valor, um saldo e uma data de lançamento.
