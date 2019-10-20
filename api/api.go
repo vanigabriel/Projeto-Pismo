@@ -132,7 +132,7 @@ func InsertTransaction(service *usecases.Service, log *timber.Client) func(c *gi
 			return
 		}
 
-		c.JSON(http.StatusCreated, gin.H{})
+		c.JSON(http.StatusCreated, gin.H{"message": "Created"})
 	}
 }
 
@@ -156,6 +156,6 @@ func InsertPayments(service *usecases.Service, log *timber.Client) func(c *gin.C
 			}
 		}
 
-		c.JSON(http.StatusCreated, gin.H{})
+		c.JSON(http.StatusCreated, gin.H{"message": "Created"})
 	}
 }
