@@ -32,3 +32,11 @@ https://documenter.getpostman.com/view/7995657/SVtbPkFJ
 - Paginação nas rotas de consulta;
 - Finalizar TDD nas rotas;
 - Abstrair camada da API;
+
+# Rodando
+    Para executar, baixe o projeto e execute o comando para gerar o docker
+    docker build -t pismo .
+    
+    Após, é só executar o docker direcionando para a porta 9292
+    
+    docker run -p 9292:9292 pismo
