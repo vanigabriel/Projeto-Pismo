@@ -2,7 +2,7 @@
 FROM golang:latest
 
 # Install application
-RUN go get https://github.com/vanigabriel/Projeto-Pismo
+RUN go get github.com/vanigabriel/Projeto-Pismo
 CMD ["pwd"]
 CMD ["ls"]
 
@@ -11,10 +11,6 @@ CMD ["ls"]
 CMD ["pwd"]
 WORKDIR /app
 CMD ["pwd"]
-
-
-# Verify oracle client
-CMD ["sqlplus64", "-v"]
 
 # Copy .env file
 COPY .env .
